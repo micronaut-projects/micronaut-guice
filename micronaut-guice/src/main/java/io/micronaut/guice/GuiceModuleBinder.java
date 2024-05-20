@@ -155,12 +155,14 @@ class GuiceModuleBinder implements Binder {
 
     @Override
     public <T> LinkedBindingBuilder<T> bind(Key<T> key) {
-        Argument<T> argument = (Argument<T>) Argument.of(key.getTypeLiteral().getType());
+        @SuppressWarnings("unchecked")
+        Argument<T> argument = ((Argument<T>) Argument.of(key.getTypeLiteral().getType()));
         return bind(argument);
     }
 
     @Override
     public <T> AnnotatedBindingBuilder<T> bind(TypeLiteral<T> typeLiteral) {
+        @SuppressWarnings("unchecked")
         Argument<T> argument = (Argument<T>) Argument.of(typeLiteral.getType());
         return bind(argument);
     }
@@ -518,6 +520,7 @@ class GuiceModuleBinder implements Binder {
         @Override
         public ScopedBindingBuilder toProvider(Class<? extends jakarta.inject.Provider<? extends T>> providerType) {
             Objects.requireNonNull(providerType, "Provider type cannot be null");
+            @SuppressWarnings("unchecked")
             BeanProvider<jakarta.inject.Provider<T>> provider = applicationContext.getBean(Argument.of(BeanProvider.class, providerType));
             this.supplier = () -> provider.get().get();
             return this;
@@ -528,6 +531,7 @@ class GuiceModuleBinder implements Binder {
             Objects.requireNonNull(providerType, "Provider type cannot be null");
             @SuppressWarnings("unchecked") Argument<? extends jakarta.inject.Provider<? extends T>> argument =
                 (Argument<? extends jakarta.inject.Provider<? extends T>>) Argument.of(providerType.getType());
+            @SuppressWarnings("unchecked")
             BeanProvider<jakarta.inject.Provider<T>> provider = applicationContext.getBean(Argument.of(BeanProvider.class, argument));
             this.supplier = () -> provider.get().get();
             return this;
