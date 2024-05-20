@@ -1,4 +1,4 @@
-# Micronaut guice
+# Micronaut Guice
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.micronaut.guice/micronaut-guice.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.micronaut.project-template%22%20AND%20a:%22micronaut-project-template%22)
 [![Build Status](https://github.com/micronaut-projects/micronaut-guice/workflows/Java%20CI/badge.svg)](https://github.com/micronaut-projects/micronaut-project-template/actions)
