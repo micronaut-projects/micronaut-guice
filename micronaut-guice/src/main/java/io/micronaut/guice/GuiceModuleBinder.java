@@ -148,7 +148,7 @@ class GuiceModuleBinder implements Binder {
 
     @Override
     public void bindScope(Class<? extends Annotation> annotationType, Scope scope) {
-        if (scope != Scopes.NO_SCOPE && scope != Scopes.SINGLETON) {
+        if (LinkedBindingBuilderImpl.isCustomScope(scope)) {
             throw new UnsupportedOperationException("Guice custom scopes are not supported");
         }
     }
@@ -567,11 +567,16 @@ class GuiceModuleBinder implements Binder {
 
         @Override
         public void in(Scope scope) {
-            if (scope == Scopes.SINGLETON) {
-                this.isSingleton = true;
-            } else if (scope != Scopes.NO_SCOPE) {
+            if (isCustomScope(scope)) {
                 throw new IllegalArgumentException("Custom Guice scopes are not supported");
             }
+            if (scope == Scopes.SINGLETON) {
+                this.isSingleton = true;
+            }
+        }
+
+        private static boolean isCustomScope(Scope scope) {
+            return !(scope == Scopes.SINGLETON || scope == Scopes.NO_SCOPE);
         }
 
         @Override
