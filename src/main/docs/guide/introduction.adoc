@@ -1,6 +1,6 @@
 This module allows importing https://github.com/google/guice[Guice] modules into a Micronaut application making the Guice bindings available for Dependency Injection.
 
-Note that only a subset of the Guice API (primarily what is implemented is the https://google.github.io/guice/api-docs/latest/javadoc/com/google/inject/Binder.html[Guice Binding EDSL]) and the following features are not supported:
+Note that only a subset of the Guice API is supported (primarily what is implemented is the https://google.github.io/guice/api-docs/latest/javadoc/com/google/inject/Binder.html[Guice Binding EDSL]) and the following features are not supported:
 
 * Custom Guice Scopes (other than Singleton) are not supported
 * Guice AOP/Interceptors are not supported (use Micronaut AOP instead)
