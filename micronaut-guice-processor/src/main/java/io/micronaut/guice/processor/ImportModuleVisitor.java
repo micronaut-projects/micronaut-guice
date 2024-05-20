@@ -15,11 +15,8 @@
  */
 package io.micronaut.guice.processor;
 
-import static io.micronaut.core.util.StringUtils.EMPTY_STRING_ARRAY;
-
 import com.google.inject.Module;
 import com.google.inject.Provides;
-import io.micronaut.context.annotation.Import;
 import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.AnnotationMetadata;
