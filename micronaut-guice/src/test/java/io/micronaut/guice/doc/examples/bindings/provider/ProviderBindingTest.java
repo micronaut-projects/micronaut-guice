@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-@MicronautTest(startApplication = false)
-@Guice(modules = BillingModule.class)
+@MicronautTest(startApplication = false, environments = "provider")
+@Guice(modules = BillingModule.class, environments = "provider")
 public class ProviderBindingTest {
     @MockBean Connection connection = Mockito.mock(Connection.class);
     @Inject TransactionLog transactionLog;

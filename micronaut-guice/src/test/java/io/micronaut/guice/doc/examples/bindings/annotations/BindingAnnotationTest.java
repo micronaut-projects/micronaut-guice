@@ -8,8 +8,8 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 
-@MicronautTest(startApplication = false)
-@Guice(modules = CreditCardProcessorModule.class)
+@MicronautTest(startApplication = false, environments = "annotations")
+@Guice(modules = CreditCardProcessorModule.class, environments = "annotations")
 @Import(classes = {PayPalCreditCardProcessor.class, CheckoutCreditCardProcessor.class})
 class BindingAnnotationTest {
     @Inject @PayPal CreditCardProcessor paypalProcessor;

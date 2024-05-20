@@ -10,10 +10,11 @@ import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-@MicronautTest(startApplication = false)
+@MicronautTest(startApplication = false, environments = "multi")
 @Guice(
     modules = FlickrPluginModule.class,
-    classes = FlickrPhotoSummarizer.class
+    classes = FlickrPhotoSummarizer.class,
+    environments = "multi"
 )
 public class MultiBinderTest {
     @Inject

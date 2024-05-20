@@ -10,8 +10,8 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-@MicronautTest(startApplication = false)
-@Guice(modules = FooModule.class)
+@MicronautTest(startApplication = false, environments = "injector")
+@Guice(modules = FooModule.class, environments = "injector")
 public class InjectorTest {
     @Test
     void testInjector(Injector injector) {

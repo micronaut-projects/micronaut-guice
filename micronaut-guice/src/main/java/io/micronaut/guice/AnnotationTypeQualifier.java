@@ -16,13 +16,19 @@
 package io.micronaut.guice;
 
 import io.micronaut.context.Qualifier;
+import io.micronaut.core.annotation.Internal;
 import io.micronaut.inject.BeanType;
 import io.micronaut.inject.qualifiers.FilteringQualifier;
 import java.lang.annotation.Annotation;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-class AnnotationTypeQualifier<T> extends FilteringQualifier<T> implements Qualifier<T> {
+/**
+ * Simple qualifier on just annotation type.
+ * @param <T> The annotation type.
+ */
+@Internal
+final class AnnotationTypeQualifier<T> extends FilteringQualifier<T> implements Qualifier<T> {
     private final Class<? extends Annotation> annotationType;
 
     AnnotationTypeQualifier(Class<? extends Annotation> annotationType) {

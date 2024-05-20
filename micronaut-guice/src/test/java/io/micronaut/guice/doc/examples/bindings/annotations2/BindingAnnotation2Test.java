@@ -14,10 +14,11 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 
-@MicronautTest(startApplication = false)
+@MicronautTest(startApplication = false, environments = "package-scan")
 @Guice(
     modules = CreditCardProcessorModule.class,
-    packages = "io.micronaut.guice.doc.examples.bindings.annotations2.impl"
+    packages = "io.micronaut.guice.doc.examples.bindings.annotations2.impl",
+    environments = "package-scan"
 )
 @Introspected(classes = PayPalCreditCardProcessor.class)
 class BindingAnnotation2Test {

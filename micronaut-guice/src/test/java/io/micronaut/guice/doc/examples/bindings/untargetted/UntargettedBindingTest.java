@@ -14,8 +14,8 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 
-@MicronautTest(startApplication = false)
-@Guice(modules = MyModule.class)
+@MicronautTest(startApplication = false, environments = "untarget")
+@Guice(modules = MyModule.class, environments = "untarget")
 @Import(classes = MyConcreteClass.class)
 public class UntargettedBindingTest {
     @Inject MyInterface myInterface1;

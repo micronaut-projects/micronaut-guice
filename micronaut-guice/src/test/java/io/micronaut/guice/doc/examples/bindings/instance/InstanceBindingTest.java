@@ -17,8 +17,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import org.junit.jupiter.api.Test;
 
-@MicronautTest(startApplication = false)
-@Guice(modules = InstanceBindingModule.class)
+@MicronautTest(startApplication = false, environments = "instance")
+@Guice(modules = InstanceBindingModule.class, environments = "instance")
 public class InstanceBindingTest {
     @Inject @Named("JDBC URL") String jdbcUrl;
     @Inject @Named("login timeout seconds") Integer timeout;
