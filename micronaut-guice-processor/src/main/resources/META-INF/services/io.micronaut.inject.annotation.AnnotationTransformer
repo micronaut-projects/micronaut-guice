@@ -1,0 +1,5 @@
+io.micronaut.guice.processor.InjectTransformer
+io.micronaut.guice.processor.ImplementedByTransformer
+io.micronaut.guice.processor.SingletonTransformer
+io.micronaut.guice.processor.NamedAnnotationTransformer
+io.micronaut.guice.processor.BindingAnnotationTransformer

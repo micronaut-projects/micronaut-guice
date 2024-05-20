@@ -1,0 +1,2 @@
+io.micronaut.guice.processor.ImportModuleVisitor
+io.micronaut.guice.processor.GuiceBeanVisitor
