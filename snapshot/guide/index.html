@@ -117,12 +117,49 @@
 <p>This module allows importing <a href="https://github.com/google/guice">Guice</a> modules into a Micronaut application making the Guice bindings available for Dependency Injection.</p>
 </div>
 <div class="paragraph">
-<p>Note that only a subset of the Guice API is supported (primarily what is implemented is the <a href="https://google.github.io/guice/api-docs/latest/javadoc/com/google/inject/Binder.html">Guice Binding EDSL</a>) and the following features are not supported:</p>
+<p>Note that only a subset of the Guice API is supported (primarily what is implemented is the <a href="https://google.github.io/guice/api-docs/latest/javadoc/com/google/inject/Binder.html">Guice Binding EDSL</a>) including:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Custom Guice Scopes (other than Singleton) are not supported</p>
+<p><a href="https://github.com/google/guice/wiki/LinkedBindings">Linked Bindings</a></p>
+</li>
+<li>
+<p><a href="https://github.com/google/guice/wiki/BindingAnnotations">Binding Annotations</a></p>
+</li>
+<li>
+<p><a href="https://github.com/google/guice/wiki/InstanceBindings">Instance Methods</a></p>
+</li>
+<li>
+<p><a href="https://github.com/google/guice/wiki/ProvidesMethods">@Provides Methods</a></p>
+</li>
+<li>
+<p><a href="https://github.com/google/guice/wiki/ProviderBindings">Provider Bindings</a></p>
+</li>
+<li>
+<p><a href="https://github.com/google/guice/wiki/UntargettedBindings">Untargeted Bindings</a></p>
+</li>
+<li>
+<p><a href="https://github.com/google/guice/wiki/ToConstructorBindings">Constructor Bindings</a></p>
+</li>
+<li>
+<p><a href="https://github.com/google/guice/wiki/JustInTimeBindings">JIT Bindings</a></p>
+</li>
+<li>
+<p><a href="https://github.com/google/guice/wiki/Multibindings">Multi Bindings</a> (only <code>Multibinder</code>)</p>
+</li>
+<li>
+<p><a href="https://github.com/google/guice/wiki/Injections">Guice Injection Types</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following features are not supported:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Custom Guice Scopes (other than Singleton and <code>NO_SCOPE</code>) are not supported</p>
 </li>
 <li>
 <p>Guice AOP/Interceptors are not supported (use Micronaut AOP instead)</p>
