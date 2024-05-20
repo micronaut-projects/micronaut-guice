@@ -1,6 +1,6 @@
-Micronaut is based on implicit binding where bindings are resolved at runtime based on the available types. Guice uses explicit binding where in the form of modules you write bindings from one type to another.
+Micronaut is based on implicit binding from compilation time metadata where bindings are resolved at runtime based on the available types. Guice uses explicit binding where in the form of modules you write bindings from one type to another.
 
-These guice modules typically extend `com.google.inject.AbstractModule` and use the https://google.github.io/guice/api-docs/latest/javadoc/com/google/inject/Binder.html[Guice Binding EDSL]).
+These Guice modules typically extend `com.google.inject.AbstractModule` and use the https://google.github.io/guice/api-docs/latest/javadoc/com/google/inject/Binder.html[Guice Binding EDSL].
 
 This integration allows you to import modules written for Guice and use them in a Micronaut application.
 
