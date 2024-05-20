@@ -434,6 +434,7 @@ class GuiceModuleBinder implements Binder {
             this.value = value;
         }
 
+        @SuppressWarnings("java:S1452")
         public RuntimeBeanDefinition<?> build() {
             Objects.requireNonNull(value, "Binding constant cannot be null, call one of the to(..) methods on the Guice binding");
             RuntimeBeanDefinition.Builder<Object> builder = RuntimeBeanDefinition.builder(value);
