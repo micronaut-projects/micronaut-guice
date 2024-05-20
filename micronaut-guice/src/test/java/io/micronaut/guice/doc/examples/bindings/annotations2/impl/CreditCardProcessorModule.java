@@ -1,4 +1,4 @@
-package io.micronaut.guice.doc.examples.bindings.annotations;
+package io.micronaut.guice.doc.examples.bindings.annotations2.impl;
 
 // tag::class[]
 import com.google.inject.AbstractModule;

@@ -3,5 +3,6 @@ introduction:
 releaseHistory: Release History
 quickStart:
   title: Quick Start
+modules: Importing Guice Modules
 repository: Repository
 

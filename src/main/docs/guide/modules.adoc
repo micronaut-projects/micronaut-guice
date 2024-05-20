@@ -1,0 +1,36 @@
+Micronaut is based on implicit binding where bindings are resolved at runtime based on the available types. Guice uses explicit binding where in the form of modules you write bindings from one type to another.
+
+These guice modules typically extend `com.google.inject.AbstractModule` and use the https://google.github.io/guice/api-docs/latest/javadoc/com/google/inject/Binder.html[Guice Binding EDSL]).
+
+This integration allows you to import modules written for Guice and use them in a Micronaut application.
+
+By declaring the ann:guice.annotation.Guice[] annotation on your `Application` class (or any class that is the logical central point or your application) you can import an existing Guice module. For example given the module:
+
+.Importing a Guice Module
+snippet::io.micronaut.guice.doc.examples.bindings.annotations.CreditCardProcessorModule[tags="class", indent=0, project="micronaut-guice"]
+
+You can declare:
+
+[source,java]
+----
+@Guice(modules = CreditCardProcessorModule.class)
+----
+
+If the module has constructor parameter these will need to also be https://docs.micronaut.io/latest/guide/#beans[declared as beans] or https://docs.micronaut.io/latest/guide/#beanImport[imported].
+
+TIP: If you want the modules only imported for a particular environment (like `TEST` or `DEVELOPMENT`) using the `environments` member of the `@Guice` annotation.
+
+You can register one or more modules. The order the modules are installed is dictated by the order of the `modules` array in the annotation.
+
+Note that when registering bindings the target type (in the above case the `to(PayPalCreditCardProcessor.class)` declaration) must itself be a bean that is available since Micronaut will not reflectively instantiate the type on demand like Guice does. Hence you may also need to declare the `classes` member:
+
+[source,java]
+----
+@Guice(
+    modules = CreditCardProcessorModule.class,
+    classes = PayPalCreditCardProcessor.class
+)
+----
+
+TIP: To import multiple classes for injection use 'packages'.
+

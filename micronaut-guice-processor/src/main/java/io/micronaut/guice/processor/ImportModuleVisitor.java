@@ -15,8 +15,11 @@
  */
 package io.micronaut.guice.processor;
 
+import static io.micronaut.core.util.StringUtils.EMPTY_STRING_ARRAY;
+
 import com.google.inject.Module;
 import com.google.inject.Provides;
+import io.micronaut.context.annotation.Import;
 import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.AnnotationMetadata;
@@ -31,6 +34,7 @@ import io.micronaut.inject.ast.beans.BeanElementBuilder;
 import io.micronaut.inject.processing.ProcessingException;
 import io.micronaut.inject.visitor.TypeElementVisitor;
 import io.micronaut.inject.visitor.VisitorContext;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -40,21 +44,40 @@ public class ImportModuleVisitor
     public static final String MEMBER_ENVS = "environments";
     public static final String MEMBER_MODULES = "modules";
     public static final String MEMBER_CLASSES = "classes";
+    public static final String MEMBER_PACKAGES = "packages";
 
     @Override
     public void visitClass(ClassElement element, VisitorContext context) {
         @NonNull String[] moduleNames = element.stringValues(Guice.class, MEMBER_MODULES);
         @NonNull String[] classNames = element.stringValues(Guice.class, MEMBER_CLASSES);
+        @NonNull String[] packages = element.stringValues(Guice.class, MEMBER_PACKAGES);
         @NonNull String[] envs = element.stringValues(Guice.class, MEMBER_ENVS);
+        List<ClassElement> classElements = new ArrayList<>();
         for (String className : classNames) {
             ClassElement classElement = context.getClassElement(className).orElse(null);
             if (classElement == null) {
                 throw new ProcessingException(element, "Guice class import [" + className + "] must be on the compilation classpath");
             } else {
-                BeanElementBuilder builder = element.addAssociatedBean(classElement);
-                builder.inject();
-                builder.typed(classElement);
+                classElements.add(classElement);
             }
+        }
+
+        if (ArrayUtils.isNotEmpty(packages)) {
+            for (String aPackage : packages) {
+                final ClassElement[] inPackage = context
+                    .getClassElements(aPackage, "*");
+                for (ClassElement classElement : inPackage) {
+                    if (!classElement.isAbstract() && !classElement.isPrivate() && !classElement.isAssignable(Module.class)) {
+                        classElements.add(classElement);
+                    }
+                }
+            }
+        }
+
+        for (ClassElement classElement : classElements) {
+            BeanElementBuilder builder = element.addAssociatedBean(classElement);
+            builder.inject();
+            builder.typed(classElement);
         }
         for (int i = 0; i < moduleNames.length; i++) {
             String className = moduleNames[i];

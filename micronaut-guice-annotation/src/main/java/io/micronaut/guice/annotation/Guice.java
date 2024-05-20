@@ -74,6 +74,12 @@ public @interface Guice {
     String[] classNames() default {};
 
     /**
+     * Import the given packages as guice classes.
+     * @return An array of package names
+     */
+    String[] packages() default {};
+
+    /**
      * The environment where the modules should be active (Defaults to all environments).
      *
      * @return The environments.

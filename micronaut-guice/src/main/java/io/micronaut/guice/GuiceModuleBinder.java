@@ -55,6 +55,8 @@ import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.context.exceptions.NoSuchBeanException;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.annotation.Order;
+import io.micronaut.core.beans.BeanIntrospection;
+import io.micronaut.core.beans.BeanIntrospector;
 import io.micronaut.core.order.Ordered;
 import io.micronaut.core.reflect.InstantiationUtils;
 import io.micronaut.core.type.Argument;
@@ -456,8 +458,21 @@ class GuiceModuleBinder implements Binder {
 
         @Override
         public ScopedBindingBuilder to(Class<? extends T> implementation) {
-            BeanProvider<T> provider = applicationContext.getBean(Argument.of(BeanProvider.class, implementation));
-            this.supplier = provider::get;
+            if (applicationContext.containsBean(implementation)) {
+                BeanProvider<T> provider = applicationContext.getBean(Argument.of(BeanProvider.class, implementation));
+                this.supplier = provider::get;
+            } else {
+                BeanIntrospection<? extends T> introspection = BeanIntrospector.SHARED.findIntrospection(implementation).orElse(null);
+                if (introspection != null) {
+                    this.supplier = introspection::instantiate;
+                } else {
+                    Message message = new Message(currentSource != null ? currentSource : implementation, "Cannot create  binding to type that is not itself declared a bean. " +
+                        "Considering adding @Guice(classes=" + implementation.getSimpleName() + ".class) below your @Guice declaration.");
+                    throw new com.google.inject.ConfigurationException(
+                        List.of(message)
+                    );
+                }
+            }
             return this;
         }
 

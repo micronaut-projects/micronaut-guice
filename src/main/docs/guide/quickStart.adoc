@@ -1,1 +1,7 @@
-TODO
+To use this module add the following annotation processor:
+
+dependency:io.micronaut.guice:micronaut-guice-processor[scope="annotationProcessor"]
+
+Then add the `micronaut-guice` module:
+
+dependency:io.micronaut.guice:micronaut-guice[scope="compile"]
