@@ -489,15 +489,18 @@ class GuiceModuleBinder implements Binder {
         public ScopedBindingBuilder to(TypeLiteral<? extends T> implementation) {
             @SuppressWarnings("unchecked")
             Argument<T> argument = (Argument<T>) Argument.of(implementation.getType());
-            BeanProvider<T> provider = applicationContext.getBean(Argument.of(BeanProvider.class, argument));
-            this.supplier = provider::get;
-            return this;
+            return to(argument);
         }
 
         @Override
         public ScopedBindingBuilder to(Key<? extends T> targetKey) {
             @SuppressWarnings("unchecked")
             Argument<T> argument = (Argument<T>) Argument.of(targetKey.getTypeLiteral().getType());
+            return to(argument);
+        }
+
+        private ScopedBindingBuilder to(Argument<T> argument) {
+            @SuppressWarnings("unchecked")
             BeanProvider<T> provider = applicationContext.getBean(Argument.of(BeanProvider.class, argument));
             this.supplier = provider::get;
             return this;
