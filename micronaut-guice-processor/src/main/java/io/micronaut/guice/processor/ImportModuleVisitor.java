@@ -119,7 +119,10 @@ public class ImportModuleVisitor
                 }
                 beanElementBuilder.produceBeans(producesMethodQuery, childBuilder -> {
                     MethodElement methodElement = (MethodElement) childBuilder.getProducingElement();
-                    childBuilder.typed(methodElement.getGenericReturnType());
+                    ClassElement genericReturnType = methodElement.getGenericReturnType();
+                    childBuilder.typed(genericReturnType);
+                    ClassElement[] typeArguments = genericReturnType.getBoundGenericTypes().toArray(ClassElement[]::new);
+                    childBuilder.typeArguments(typeArguments);
                     childBuilder.annotate(Primary.class);
                     AnnotationMetadata annotationMetadata = methodElement.getAnnotationMetadata();
                     Set<String> annotationNames = annotationMetadata.getAnnotationNames();
