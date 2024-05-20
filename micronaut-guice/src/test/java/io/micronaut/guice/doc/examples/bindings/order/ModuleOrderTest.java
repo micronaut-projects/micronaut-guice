@@ -20,7 +20,7 @@ class ModuleOrderTest {
 
     @Test
     void testOrder() {
-        assertEquals(2, modules.size());
+        assertEquals(3, modules.size());
         assertInstanceOf(One.class, modules.get(0));
         assertInstanceOf(Two.class, modules.get(1));
     }
