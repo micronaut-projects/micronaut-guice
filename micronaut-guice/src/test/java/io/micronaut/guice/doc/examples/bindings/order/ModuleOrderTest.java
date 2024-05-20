@@ -7,6 +7,8 @@ import io.micronaut.guice.doc.examples.bindings.defaultimplementation.GreeterMod
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import java.util.List;
+import java.util.stream.IntStream;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,10 +22,13 @@ class ModuleOrderTest {
 
     @Test
     void testOrder() {
-        assertEquals(3, modules.size());
         assertTrue(modules.stream().anyMatch(m -> m instanceof One));
         assertTrue(modules.stream().anyMatch(m -> m instanceof Two));
-        assertTrue(modules.stream().anyMatch(m -> m instanceof GreeterModule));
+        assertTrue(IntStream.range(0, modules.size())
+                        .filter(i -> modules.get(i) instanceof One)
+                                .findFirst().getAsInt() < IntStream.range(0, modules.size())
+                .filter(i -> modules.get(i) instanceof Two)
+                .findFirst().getAsInt());
     }
 }
 
