@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 @MicronautTest(startApplication = false, environments = "injector")
 @Guice(modules = FooModule.class, environments = "injector")
-public class InjectorTest {
+class InjectorTest {
     @Test
     void testInjector(Injector injector) {
         Foo foo = injector.getInstance(Foo.class);

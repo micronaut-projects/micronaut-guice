@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 @MicronautTest(startApplication = false, environments = "untarget")
 @Guice(modules = MyModule.class, environments = "untarget")
 @Import(classes = MyConcreteClass.class)
-public class UntargettedBindingTest {
+class UntargettedBindingTest {
     @Inject MyInterface myInterface1;
     @Inject MyInterface myInterface2;
     @Inject MyConcreteClass myConcreteClass;

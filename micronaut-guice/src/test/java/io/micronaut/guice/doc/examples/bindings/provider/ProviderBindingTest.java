@@ -15,7 +15,7 @@ import org.mockito.Mockito;
 
 @MicronautTest(startApplication = false, environments = "provider")
 @Guice(modules = BillingModule.class, environments = "provider")
-public class ProviderBindingTest {
+class ProviderBindingTest {
     @MockBean Connection connection = Mockito.mock(Connection.class);
     @Inject TransactionLog transactionLog;
 

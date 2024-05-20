@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 
 @MicronautTest(startApplication = false, environments = "instance")
 @Guice(modules = InstanceBindingModule.class, environments = "instance")
-public class InstanceBindingTest {
+class InstanceBindingTest {
     @Inject @Named("JDBC URL") String jdbcUrl;
     @Inject @Named("login timeout seconds") Integer timeout;
     @Inject @HttpPort Integer port;
