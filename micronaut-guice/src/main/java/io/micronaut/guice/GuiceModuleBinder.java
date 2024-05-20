@@ -156,22 +156,22 @@ class GuiceModuleBinder implements Binder {
     @Override
     public <T> LinkedBindingBuilder<T> bind(Key<T> key) {
         Argument<T> argument = (Argument<T>) Argument.of(key.getTypeLiteral().getType());
-        LinkedBindingBuilderImpl<T> builder = new LinkedBindingBuilderImpl<>(argument);
-        linkedBindingBuilders.add(builder);
-        return builder;
+        return bind(argument);
     }
 
     @Override
     public <T> AnnotatedBindingBuilder<T> bind(TypeLiteral<T> typeLiteral) {
         Argument<T> argument = (Argument<T>) Argument.of(typeLiteral.getType());
-        LinkedBindingBuilderImpl<T> builder = new LinkedBindingBuilderImpl<>(argument);
-        linkedBindingBuilders.add(builder);
-        return builder;
+        return bind(argument);
     }
 
     @Override
     public <T> AnnotatedBindingBuilder<T> bind(Class<T> type) {
-        LinkedBindingBuilderImpl<T> builder = new LinkedBindingBuilderImpl<>(Argument.of(type));
+        return bind(Argument.of(type));
+    }
+
+    private <T> AnnotatedBindingBuilder<T> bind(Argument<T> argument) {
+        LinkedBindingBuilderImpl<T> builder = new LinkedBindingBuilderImpl<>(argument);
         linkedBindingBuilders.add(builder);
         return builder;
     }
