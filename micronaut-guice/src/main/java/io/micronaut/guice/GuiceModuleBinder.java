@@ -447,6 +447,12 @@ class GuiceModuleBinder implements Binder {
 
     private class LinkedBindingBuilderImpl<T> implements LinkedBindingBuilder<T>, AnnotatedBindingBuilder<T> {
         private final Argument<T> beanType;
+
+        private static final List<Class<? extends Annotation>> SINGLETON_CLASSES = List.of(
+                Singleton.class,
+                jakarta.inject.Singleton.class
+        );
+
         private boolean isSingleton;
         private Class<? extends Annotation> scope;
 
@@ -559,7 +565,7 @@ class GuiceModuleBinder implements Binder {
 
         @Override
         public void in(Class<? extends Annotation> scopeAnnotation) {
-            if (scopeAnnotation == Singleton.class || scopeAnnotation == jakarta.inject.Singleton.class) {
+            if (SINGLETON_CLASSES.contains(scopeAnnotation)) {
                 this.isSingleton = true;
             }
             this.scope = scopeAnnotation;
