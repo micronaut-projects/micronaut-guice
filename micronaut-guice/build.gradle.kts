@@ -3,9 +3,9 @@ plugins {
 }
 
 dependencies {
-    implementation(mn.micronaut.context)
-    implementation(projects.micronautGuiceAnnotation)
-    implementation(libs.managed.guice) {
+    api(mn.micronaut.context)
+    api(projects.micronautGuiceAnnotation)
+    api(libs.managed.guice) {
         exclude(group="com.google.guava", module = "guava")
     }
     runtimeOnly(libs.managed.guava)

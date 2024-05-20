@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.managed.guice) {
+    api(libs.managed.guice) {
         exclude(group="com.google.guava", module = "guava")
     }
 }
