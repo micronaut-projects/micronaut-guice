@@ -3,7 +3,6 @@ package io.micronaut.guice.doc.examples.bindings.order;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import io.micronaut.guice.annotation.Guice;
-import io.micronaut.guice.doc.examples.bindings.defaultimplementation.GreeterModule;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import java.util.List;

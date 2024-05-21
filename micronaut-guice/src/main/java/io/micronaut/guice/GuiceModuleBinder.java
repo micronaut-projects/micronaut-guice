@@ -334,7 +334,7 @@ class GuiceModuleBinder implements Binder {
         // no-op
     }
 
-    private static <T> void bindQualifier(RuntimeBeanDefinition.Builder<T> builder, String beanName, Class<? extends Annotation> beanQualifier, boolean primary) {
+    private static <T> void bindQualifier(RuntimeBeanDefinition.Builder<T> builder, String beanName, Class<? extends Annotation> beanQualifier) {
         if (StringUtils.isNotEmpty(beanName)) {
             builder.named(beanName);
         } else {
@@ -438,7 +438,7 @@ class GuiceModuleBinder implements Binder {
         public RuntimeBeanDefinition<?> build() {
             Objects.requireNonNull(value, "Binding constant cannot be null, call one of the to(..) methods on the Guice binding");
             RuntimeBeanDefinition.Builder<Object> builder = RuntimeBeanDefinition.builder(value);
-            bindQualifier(builder, name, annotationType, false);
+            bindQualifier(builder, name, annotationType);
             return builder.build();
         }
     }
@@ -451,7 +451,6 @@ class GuiceModuleBinder implements Binder {
         private Supplier<T> supplier;
         private Class<? extends Annotation> annotationType;
         private String name;
-        private boolean primary;
 
         public LinkedBindingBuilderImpl(Argument<T> argument) {
             this.beanType = argument;
@@ -603,7 +602,6 @@ class GuiceModuleBinder implements Binder {
                     } else {
                         BeanDefinition<T> beanDefinition = applicationContext.getBeanDefinition(javaType);
                         toProvider(() -> applicationContext.getBean(beanDefinition));
-                        this.primary = true;
                     }
                 }
             }
@@ -631,7 +629,7 @@ class GuiceModuleBinder implements Binder {
             builder.exposedTypes(beanType.getType());
             String beanName = name;
             Class<? extends Annotation> beanQualifier = annotationType;
-            bindQualifier(builder, beanName, beanQualifier, primary);
+            bindQualifier(builder, beanName, beanQualifier);
             return builder
                 .build();
         }
