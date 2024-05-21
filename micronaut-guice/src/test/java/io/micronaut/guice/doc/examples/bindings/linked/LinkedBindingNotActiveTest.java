@@ -8,7 +8,7 @@ import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 
 @MicronautTest
-public class LinkedBindingNotActiveTest {
+class LinkedBindingNotActiveTest {
     @Inject
     ApplicationContext applicationContext;
 

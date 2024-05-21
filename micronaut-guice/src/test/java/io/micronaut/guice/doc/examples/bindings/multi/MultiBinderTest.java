@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
     classes = FlickrPhotoSummarizer.class,
     environments = "multi"
 )
-public class MultiBinderTest {
+class MultiBinderTest {
     @Inject
     Set<UriSummarizer> uriSummarizers;
 

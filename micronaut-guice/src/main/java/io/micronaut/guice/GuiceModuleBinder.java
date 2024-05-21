@@ -148,30 +148,32 @@ class GuiceModuleBinder implements Binder {
 
     @Override
     public void bindScope(Class<? extends Annotation> annotationType, Scope scope) {
-        if (scope != Scopes.NO_SCOPE && scope != Scopes.SINGLETON) {
+        if (LinkedBindingBuilderImpl.isCustomScope(scope)) {
             throw new UnsupportedOperationException("Guice custom scopes are not supported");
         }
     }
 
     @Override
     public <T> LinkedBindingBuilder<T> bind(Key<T> key) {
-        Argument<T> argument = (Argument<T>) Argument.of(key.getTypeLiteral().getType());
-        LinkedBindingBuilderImpl<T> builder = new LinkedBindingBuilderImpl<>(argument);
-        linkedBindingBuilders.add(builder);
-        return builder;
+        @SuppressWarnings("unchecked")
+        Argument<T> argument = ((Argument<T>) Argument.of(key.getTypeLiteral().getType()));
+        return bind(argument);
     }
 
     @Override
     public <T> AnnotatedBindingBuilder<T> bind(TypeLiteral<T> typeLiteral) {
+        @SuppressWarnings("unchecked")
         Argument<T> argument = (Argument<T>) Argument.of(typeLiteral.getType());
-        LinkedBindingBuilderImpl<T> builder = new LinkedBindingBuilderImpl<>(argument);
-        linkedBindingBuilders.add(builder);
-        return builder;
+        return bind(argument);
     }
 
     @Override
     public <T> AnnotatedBindingBuilder<T> bind(Class<T> type) {
-        LinkedBindingBuilderImpl<T> builder = new LinkedBindingBuilderImpl<>(Argument.of(type));
+        return bind(Argument.of(type));
+    }
+
+    private <T> AnnotatedBindingBuilder<T> bind(Argument<T> argument) {
+        LinkedBindingBuilderImpl<T> builder = new LinkedBindingBuilderImpl<>(argument);
         linkedBindingBuilders.add(builder);
         return builder;
     }
@@ -445,6 +447,12 @@ class GuiceModuleBinder implements Binder {
 
     private class LinkedBindingBuilderImpl<T> implements LinkedBindingBuilder<T>, AnnotatedBindingBuilder<T> {
         private final Argument<T> beanType;
+
+        private static final List<Class<? extends Annotation>> SINGLETON_CLASSES = List.of(
+                Singleton.class,
+                jakarta.inject.Singleton.class
+        );
+
         private boolean isSingleton;
         private Class<? extends Annotation> scope;
 
@@ -481,15 +489,18 @@ class GuiceModuleBinder implements Binder {
         public ScopedBindingBuilder to(TypeLiteral<? extends T> implementation) {
             @SuppressWarnings("unchecked")
             Argument<T> argument = (Argument<T>) Argument.of(implementation.getType());
-            BeanProvider<T> provider = applicationContext.getBean(Argument.of(BeanProvider.class, argument));
-            this.supplier = provider::get;
-            return this;
+            return to(argument);
         }
 
         @Override
         public ScopedBindingBuilder to(Key<? extends T> targetKey) {
             @SuppressWarnings("unchecked")
             Argument<T> argument = (Argument<T>) Argument.of(targetKey.getTypeLiteral().getType());
+            return to(argument);
+        }
+
+        private ScopedBindingBuilder to(Argument<T> argument) {
+            @SuppressWarnings("unchecked")
             BeanProvider<T> provider = applicationContext.getBean(Argument.of(BeanProvider.class, argument));
             this.supplier = provider::get;
             return this;
@@ -518,6 +529,7 @@ class GuiceModuleBinder implements Binder {
         @Override
         public ScopedBindingBuilder toProvider(Class<? extends jakarta.inject.Provider<? extends T>> providerType) {
             Objects.requireNonNull(providerType, "Provider type cannot be null");
+            @SuppressWarnings("unchecked")
             BeanProvider<jakarta.inject.Provider<T>> provider = applicationContext.getBean(Argument.of(BeanProvider.class, providerType));
             this.supplier = () -> provider.get().get();
             return this;
@@ -528,6 +540,7 @@ class GuiceModuleBinder implements Binder {
             Objects.requireNonNull(providerType, "Provider type cannot be null");
             @SuppressWarnings("unchecked") Argument<? extends jakarta.inject.Provider<? extends T>> argument =
                 (Argument<? extends jakarta.inject.Provider<? extends T>>) Argument.of(providerType.getType());
+            @SuppressWarnings("unchecked")
             BeanProvider<jakarta.inject.Provider<T>> provider = applicationContext.getBean(Argument.of(BeanProvider.class, argument));
             this.supplier = () -> provider.get().get();
             return this;
@@ -555,7 +568,7 @@ class GuiceModuleBinder implements Binder {
 
         @Override
         public void in(Class<? extends Annotation> scopeAnnotation) {
-            if (scopeAnnotation == Singleton.class || scopeAnnotation == jakarta.inject.Singleton.class) {
+            if (SINGLETON_CLASSES.contains(scopeAnnotation)) {
                 this.isSingleton = true;
             }
             this.scope = scopeAnnotation;
@@ -563,11 +576,16 @@ class GuiceModuleBinder implements Binder {
 
         @Override
         public void in(Scope scope) {
-            if (scope == Scopes.SINGLETON) {
-                this.isSingleton = true;
-            } else if (scope != Scopes.NO_SCOPE) {
+            if (isCustomScope(scope)) {
                 throw new IllegalArgumentException("Custom Guice scopes are not supported");
             }
+            if (scope == Scopes.SINGLETON) {
+                this.isSingleton = true;
+            }
+        }
+
+        private static boolean isCustomScope(Scope scope) {
+            return !(scope == Scopes.SINGLETON || scope == Scopes.NO_SCOPE);
         }
 
         @Override
