@@ -19,8 +19,7 @@ class ContextGetBeanTest {
         assertEquals("Ahoy", context.getBean(Greeter.class, Qualifiers.byName("pirate")).hello());
 
     }
-    
-    @Disabled("io.micronaut.context.exceptions.NonUniqueBeanException: Multiple possible bean candidates found: [Greeter, Greeter]")
+
     @Test
     void contextGetBean() {
         assertEquals("Hello", context.getBean(Greeter.class).hello());

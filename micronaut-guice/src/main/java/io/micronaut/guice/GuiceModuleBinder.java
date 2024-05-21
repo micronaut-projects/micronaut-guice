@@ -343,7 +343,7 @@ class GuiceModuleBinder implements Binder {
                 annotationMetadata.addAnnotation(beanQualifier.getName(), Map.of());
                 builder.annotationMetadata(annotationMetadata);
                 builder.qualifier(Qualifiers.byAnnotation(annotationMetadata, beanQualifier));
-            } else if (primary) {
+            } else {
                 builder.qualifier(PrimaryQualifier.INSTANCE);
             }
         }
