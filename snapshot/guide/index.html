@@ -299,12 +299,43 @@ public final class CreditCardProcessorModule extends AbstractModule {
 <p>You can declare:</p>
 </div>
 <div class="listingblock">
+<div class="title">Using <code>@Guice</code> annotation</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Guice(modules = CreditCardProcessorModule.class)</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
+
+import io.micronaut.runtime.Micronaut;
+
+@Guice(modules = CreditCardProcessorModule.class) <i class="conum" data-value="1"></i><b>(1)</b>
+public class Application {
+
+    public static void main(String[] args) {
+        Micronaut.run(Application.class, args);
+    }
+}</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <a href="../api/io/micronaut/guice/annotation/Guice.html">@Guice</a> annotation is used to include the <code>CreditCardProcessorModule</code>.</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>If the module has constructor parameter these will need to also be <a href="https://docs.micronaut.io/latest/guide/#beans">declared as beans</a> or <a href="https://docs.micronaut.io/latest/guide/#beanImport">imported</a>.</p>
+<p>With the above code in place you can dependency inject any types declared in the Guice module&#8217;s bindings into your own code.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the module has constructor parameters these will need to also be <a href="https://docs.micronaut.io/latest/guide/#beans">declared as beans</a> or <a href="https://docs.micronaut.io/latest/guide/#beanImport">imported</a>.
+</td>
+</tr>
+</table>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -339,7 +370,7 @@ If you want the modules only imported for a particular environment (like <code>T
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-To import multiple classes for injection use 'packages'.
+To import multiple Guice classes for injection use 'packages'.
 </td>
 </tr>
 </table>
