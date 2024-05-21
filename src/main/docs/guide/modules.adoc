@@ -11,14 +11,31 @@ snippet::io.micronaut.guice.doc.examples.bindings.annotations.CreditCardProcesso
 
 You can declare:
 
+.Using `@Guice` annotation
 [source,java]
 ----
-@Guice(modules = CreditCardProcessorModule.class)
+
+package com.example;
+
+import io.micronaut.runtime.Micronaut;
+
+@Guice(modules = CreditCardProcessorModule.class) // <1>
+public class Application {
+
+    public static void main(String[] args) {
+        Micronaut.run(Application.class, args);
+    }
+}
 ----
 
-If the module has constructor parameter these will need to also be https://docs.micronaut.io/latest/guide/#beans[declared as beans] or https://docs.micronaut.io/latest/guide/#beanImport[imported].
+<1> The ann:guice.annotation.Guice[] annotation is used to include the `CreditCardProcessorModule`.
+
+With the above code in place you can dependency inject any types declared in the Guice module's bindings into your own code.
+
+NOTE: If the module has constructor parameters these will need to also be https://docs.micronaut.io/latest/guide/#beans[declared as beans] or https://docs.micronaut.io/latest/guide/#beanImport[imported].
 
 TIP: If you want the modules only imported for a particular environment (like `TEST` or `DEVELOPMENT`) using the `environments` member of the `@Guice` annotation.
+
 
 You can register one or more modules. The order the modules are installed is dictated by the order of the `modules` array in the annotation.
 
@@ -32,5 +49,5 @@ Note that when registering bindings the target type (in the above case the `to(P
 )
 ----
 
-TIP: To import multiple classes for injection use 'packages'.
+TIP: To import multiple Guice classes for injection use 'packages'.
 
