@@ -7,7 +7,7 @@ spock = "2.3-groovy-4.0"
 
 # Managed versions appear in the BOM
 managed-guice = "7.0.0"
-managed-guava = "33.2.0-jre"
+managed-guava = "33.2.1-jre"
 
 [libraries]
 # Core
