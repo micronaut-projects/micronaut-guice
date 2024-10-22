@@ -133,7 +133,7 @@ public class ImportModuleVisitor
                         }
                     }
                     if (ArrayUtils.isNotEmpty(envs)) {
-                        beanElementBuilder.annotate(Requires.class, env -> env.member("env", envs));
+                        childBuilder.annotate(Requires.class, env -> env.member("env", envs));
                     }
                 });
 
