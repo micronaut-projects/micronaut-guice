@@ -1,0 +1,3 @@
+io.micronaut.guice.annotation
+io.micronaut.guice.annotation.internal
+io.micronaut.guice.processor
