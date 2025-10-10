@@ -6,5 +6,4 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    implementation(libs.sonatype.scan)
 }
