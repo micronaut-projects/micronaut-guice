@@ -14,6 +14,7 @@ dependencies {
     testImplementation(mnTest.micronaut.test.junit5)
     testImplementation(mnTest.mockito.junit.jupiter)
     testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 //tasks {
