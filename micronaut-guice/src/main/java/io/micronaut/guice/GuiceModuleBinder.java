@@ -358,7 +358,7 @@ class GuiceModuleBinder implements Binder {
         }
     }
 
-    private static final class AnnotatedConstantBindingBuilderImpl implements AnnotatedConstantBindingBuilder, ConstantBindingBuilder {
+    private static class AnnotatedConstantBindingBuilderImpl implements AnnotatedConstantBindingBuilder, ConstantBindingBuilder {
         private Object value;
         private Class<? extends Annotation> annotationType;
         private String name;
