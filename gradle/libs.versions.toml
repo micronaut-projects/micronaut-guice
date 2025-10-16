@@ -17,6 +17,4 @@ micronaut-core = { module = 'io.micronaut:micronaut-core-bom', version.ref = 'mi
 # Managed dependencies appear in the BOM
 managed-guice = { module = "com.google.inject:guice", version.ref = "managed-guice" }
 managed-guava = { module = "com.google.guava:guava", version.ref = "managed-guava" }
-junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api" }
-junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
 junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params" }

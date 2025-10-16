@@ -13,7 +13,7 @@ dependencies {
     testAnnotationProcessor(mn.micronaut.inject.java)
     testImplementation(mnTest.micronaut.test.junit5)
     testImplementation(mnTest.mockito.junit.jupiter)
-    testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(mnTest.junit.jupiter.engine)
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
