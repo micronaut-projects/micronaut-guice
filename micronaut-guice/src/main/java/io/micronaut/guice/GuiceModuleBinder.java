@@ -446,12 +446,12 @@ class GuiceModuleBinder implements Binder {
     }
 
     private class LinkedBindingBuilderImpl<T> implements LinkedBindingBuilder<T>, AnnotatedBindingBuilder<T> {
-        private final Argument<T> beanType;
 
         private static final List<Class<? extends Annotation>> SINGLETON_CLASSES = List.of(
                 Singleton.class,
                 jakarta.inject.Singleton.class
         );
+        private final Argument<T> beanType;
 
         private boolean isSingleton;
         private Class<? extends Annotation> scope;
