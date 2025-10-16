@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"io.micronaut.guice.annotation"},{"l":"io.micronaut.guice.annotation.internal"},{"l":"io.micronaut.guice.processor"}];updateSearchResults();
