@@ -18,7 +18,7 @@ package io.micronaut.guice.annotation.internal;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.core.annotation.Internal;
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
