@@ -1,9 +1,5 @@
 [versions]
-micronaut = "4.10.9"
-micronaut-docs = "3.0.0"
-micronaut-test = "4.9.0"
-groovy = "4.0.27"
-spock = "2.3-groovy-4.0"
+micronaut = "5.0.0-M2"
 
 # Managed versions appear in the BOM
 managed-guice = "7.0.0"
