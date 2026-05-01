@@ -3,7 +3,7 @@ micronaut = "5.0.0-M26"
 
 # Managed versions appear in the BOM
 managed-guice = "7.0.0"
-managed-guava = "33.5.0-jre"
+managed-guava = "33.6.0-jre"
 
 [libraries]
 # Core
