@@ -1,4 +1,3 @@
 io.micronaut.guice.annotation
 io.micronaut.guice.annotation.internal
-io.micronaut.guice.info
 io.micronaut.guice.processor
