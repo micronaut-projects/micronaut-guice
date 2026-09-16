@@ -7,26 +7,15 @@ This integration allows you to import modules written for Guice and use them in 
 By declaring the ann:guice.annotation.Guice[] annotation on your `Application` class (or any class that is the logical central point or your application) you can import an existing Guice module. For example given the module:
 
 .Importing a Guice Module
-snippet::io.micronaut.guice.doc.examples.bindings.annotations.CreditCardProcessorModule[tags="class", indent=0, project="micronaut-guice"]
+snippet::io.micronaut.guice.doc.examples.bindings.annotations.CreditCardProcessorModule[tags="class", indent=0]
+
+[.lang-python]
+NOTE: A Python module implements the `com.google.inject.Module` interface (a Python class cannot extend `AbstractModule`) and passes the Java classes of the bound types and binding annotations (`java.type(...)`) to the binder. `@Provides` methods of a Python module are not turned into beans by the Python compiler yet.
 
 You can declare:
 
 .Using `@Guice` annotation
-[source,java]
-----
-
-package com.example;
-
-import io.micronaut.runtime.Micronaut;
-
-@Guice(modules = CreditCardProcessorModule.class) // <1>
-public class Application {
-
-    public static void main(String[] args) {
-        Micronaut.run(Application.class, args);
-    }
-}
-----
+snippet::io.micronaut.guice.doc.examples.bindings.annotations.Application[tags="imports,class", indent=0]
 
 <1> The ann:guice.annotation.Guice[] annotation is used to include the `CreditCardProcessorModule`.
 
@@ -41,13 +30,7 @@ You can register one or more modules. The order the modules are installed is dic
 
 Note that when registering bindings the target type (in the above case the `to(PayPalCreditCardProcessor.class)` declaration) must itself be a bean that is available since Micronaut will not reflectively instantiate the type on demand like Guice does. Hence you may also need to declare the `classes` member:
 
-[source,java]
-----
-@Guice(
-    modules = CreditCardProcessorModule.class,
-    classes = PayPalCreditCardProcessor.class
-)
-----
+snippet::io.micronaut.guice.doc.examples.bindings.imported.Application[tags="guice", indent=0]
 
 TIP: To import multiple Guice classes for injection use 'packages'.
 
