@@ -296,4 +296,34 @@ class Test {
         bean.test2.getClass().simpleName == 'TestImpl'
         bean.test1 == bean.test2
     }
+
+    void "test import module without an accessible constructor fails with a message containing the module name"() {
+        when:
+        buildContext("test.Test", '''
+package test;
+
+import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import io.micronaut.guice.annotation.Guice;
+
+class MultiConstructorModule extends AbstractModule {
+    MultiConstructorModule() {}
+    MultiConstructorModule(String name) {}
+
+    @Override protected void configure() {
+        bind(String.class).toInstance("test");
+    }
+}
+
+@Guice(modules= MultiConstructorModule.class)
+class Test {
+    @Inject public String foo;
+}
+''', true)
+
+        then:
+        def e = thrown(RuntimeException)
+        e.message.contains("Cannot import Guice module [test.MultiConstructorModule], since it has multiple constructors or no accessible constructor.")
+        e.message.contains("Consider defining a single public accessible constructor or if there are multiple adding @Inject to one of them.")
+    }
 }

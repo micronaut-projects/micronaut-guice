@@ -86,10 +86,8 @@ public class ImportModuleVisitor
             MethodElement primaryConstructor =
                 moduleElement.getPrimaryConstructor().orElse(null);
             if (primaryConstructor == null) {
-                throw new ProcessingException(element, """
-                        Cannot import Guice module [" + moduleElement.getName() + "], since it has multiple constructors or no accessible constructor.
-                        Consider defining a single public accessible constructor or if there are multiple adding @Inject to one of them.
-                    """);
+                throw new ProcessingException(element, "Cannot import Guice module [" + moduleElement.getName() + "], since it has multiple constructors or no accessible constructor. " +
+                    "Consider defining a single public accessible constructor or if there are multiple adding @Inject to one of them.");
             } else {
 
                 BeanElementBuilder beanElementBuilder = element.addAssociatedBean(
