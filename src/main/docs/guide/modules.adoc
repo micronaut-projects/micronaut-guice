@@ -10,7 +10,7 @@ By declaring the ann:guice.annotation.Guice[] annotation on your `Application` c
 snippet::io.micronaut.guice.doc.examples.bindings.annotations.CreditCardProcessorModule[tags="class", indent=0]
 
 [.lang-python]
-NOTE: A Python module implements the `com.google.inject.Module` interface and binds through the `Binder` passed to `configure`; the bound types are the Python classes themselves, and a binding annotation defined in Python is passed to `annotatedWith` as its generated Java class (`java.type(...)`).
+NOTE: A Python module implements the `com.google.inject.Module` interface and binds through the `Binder` passed to `configure`, rather than extending `AbstractModule` and using its inherited `bind(...)`. The bound types and the binding annotations are the Python classes and annotation functions themselves.
 
 You can declare:
 
