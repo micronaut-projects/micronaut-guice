@@ -230,6 +230,15 @@
 &lt;/annotationProcessorPaths&gt;</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+build = [
+    <span class="hljs-string">"io.micronaut.guice:micronaut-guice-processor"</span>,
+]</code></pre>
+</div>
+</div>
 </p>
 </div>
 <div class="paragraph">
@@ -248,6 +257,15 @@
     &lt;groupId&gt;io.micronaut.guice&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-guice&lt;/artifactId&gt;
 &lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut.guice:micronaut-guice"</span>,
+]</code></pre>
 </div>
 </div>
 </p>
@@ -299,21 +317,157 @@ public final class CreditCardProcessorModule extends AbstractModule {
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="title">Importing a Guice Module</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from com.google.inject import Binder, Module, Provides
+
+from .CheckoutCreditCardProcessor import CheckoutCreditCardProcessor
+from .CreditCardProcessor import CreditCardProcessor
+from .GoogleCheckout import GoogleCheckout
+from .PayPal import PayPal
+from .PayPalCreditCardProcessor import PayPalCreditCardProcessor
+
+
+class CreditCardProcessorModule(Module):
+
+    def configure(self, binder: Binder) -&gt; None:
+        # This uses the optional `annotatedWith` clause in the `bind()` statement
+        binder.bind(CreditCardProcessor) \
+            .annotatedWith(PayPal) \
+            .to(PayPalCreditCardProcessor)
+
+    # This uses binding annotation with a @Provides method
+    @Provides
+    @GoogleCheckout()
+    def provide_checkout_processor(self, processor: CheckoutCreditCardProcessor) -&gt; CreditCardProcessor:
+        return processor</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title">Importing a Guice Module</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import com.google.inject.AbstractModule
+import com.google.inject.Provides
+
+class CreditCardProcessorModule : AbstractModule() {
+    override fun configure() {
+        // This uses the optional `annotatedWith` clause in the `bind()` statement
+        bind(CreditCardProcessor::class.java)
+            .annotatedWith(PayPal::class.java)
+            .to(PayPalCreditCardProcessor::class.java)
+    }
+
+    // This uses binding annotation with a @Provides method
+    @Provides
+    @GoogleCheckout
+    fun provideCheckoutProcessor(
+        processor: CheckoutCreditCardProcessor): CreditCardProcessor {
+        return processor
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title">Importing a Guice Module</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import com.google.inject.AbstractModule
+import com.google.inject.Provides
+
+final class CreditCardProcessorModule extends AbstractModule {
+    @Override
+    protected void configure() {
+        // This uses the optional `annotatedWith` clause in the `bind()` statement
+        bind(CreditCardProcessor)
+            .annotatedWith(PayPal)
+            .to(PayPalCreditCardProcessor)
+    }
+
+    // This uses binding annotation with a @Provides method
+    @Provides
+    @GoogleCheckout
+    CreditCardProcessor provideCheckoutProcessor(
+        CheckoutCreditCardProcessor processor) {
+        return processor
+    }
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note lang-python">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+A Python module implements the <code>com.google.inject.Module</code> interface and binds through the <code>Binder</code> passed to <code>configure</code>, rather than extending <code>AbstractModule</code> and using its inherited <code>bind(&#8230;&#8203;)</code>. The bound types and the binding annotations are the Python classes and annotation functions themselves.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>You can declare:</p>
 </div>
-<div class="listingblock">
+<div class="listingblock multi-language-sample">
 <div class="title">Using <code>@Guice</code> annotation</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.example;
-
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.guice.annotation.Guice;
 import io.micronaut.runtime.Micronaut;
 
-@Guice(modules = CreditCardProcessorModule.class) <i class="conum" data-value="1"></i><b>(1)</b>
+@Guice(modules = CreditCardProcessorModule.class) // <b class="conum">(1)</b>
 public class Application {
 
     public static void main(String[] args) {
         Micronaut.run(Application.class, args);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title">Using <code>@Guice</code> annotation</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from micronaut.guice.annotation import Guice
+from micronaut.runtime import Micronaut
+
+from .CreditCardProcessorModule import CreditCardProcessorModule
+
+@Guice(modules=[CreditCardProcessorModule])  # <b class="conum">(1)</b>
+class Application:
+
+    @staticmethod
+    def main(args: list[str]) -&gt; None:
+        Micronaut.run(Application)</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title">Using <code>@Guice</code> annotation</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.guice.annotation.Guice
+import io.micronaut.runtime.Micronaut
+
+@Guice(modules = [CreditCardProcessorModule::class]) // <b class="conum">(1)</b>
+class Application {
+
+    companion object {
+        @JvmStatic
+        fun main(args: Array&lt;String&gt;) {
+            Micronaut.run(Application::class.java, *args)
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title">Using <code>@Guice</code> annotation</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.guice.annotation.Guice
+import io.micronaut.runtime.Micronaut
+
+@Guice(modules = CreditCardProcessorModule) // <b class="conum">(1)</b>
+class Application {
+
+    static void main(String[] args) {
+        Micronaut.run(Application, args)
     }
 }</code></pre>
 </div>
@@ -359,11 +513,35 @@ If you want the modules only imported for a particular environment (like <code>T
 <div class="paragraph">
 <p>Note that when registering bindings the target type (in the above case the <code>to(PayPalCreditCardProcessor.class)</code> declaration) must itself be a bean that is available since Micronaut will not reflectively instantiate the type on demand like Guice does. Hence you may also need to declare the <code>classes</code> member:</p>
 </div>
-<div class="listingblock">
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Guice(
     modules = CreditCardProcessorModule.class,
     classes = PayPalCreditCardProcessor.class
+)</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">@Guice(
+    modules=[CreditCardProcessorModule],
+    classes=[PayPalCreditCardProcessor]
+)</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">@Guice(
+    modules = [CreditCardProcessorModule::class],
+    classes = [PayPalCreditCardProcessor::class]
+)</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">@Guice(
+    modules = CreditCardProcessorModule,
+    classes = PayPalCreditCardProcessor
 )</code></pre>
 </div>
 </div>
