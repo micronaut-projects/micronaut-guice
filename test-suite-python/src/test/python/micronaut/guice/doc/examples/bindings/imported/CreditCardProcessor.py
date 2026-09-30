@@ -1,0 +1,2 @@
+class CreditCardProcessor:
+    pass
