@@ -1,5 +1,5 @@
 [versions]
-micronaut = "5.2.9"
+micronaut = "5.2.13"
 
 # Managed versions appear in the BOM
 managed-guice = "7.0.0"
